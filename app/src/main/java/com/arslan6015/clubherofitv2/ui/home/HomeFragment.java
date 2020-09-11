@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,17 +20,49 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.arslan6015.clubherofitv2.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     ConstraintLayout bghome;
+    TextView profilename;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         bghome = root.findViewById(R.id.bghome);
+        profilename = root.findViewById(R.id.profilename);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("UserInfo")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("fullName");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                profilename.setText(value);
+                Log.d("TAG", "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
         bghome.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
             public void onSwipeTop() {
 //                Toast.makeText(getContext(), "Swiped top", Toast.LENGTH_SHORT).show();
@@ -50,6 +83,9 @@ public class HomeFragment extends Fragment {
             }
 
         });
+
+
+
         return root;
     }
 
