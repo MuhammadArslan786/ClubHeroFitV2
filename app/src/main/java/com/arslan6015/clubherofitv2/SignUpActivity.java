@@ -83,7 +83,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     if (task.isSuccessful()) {
 
-                                        UserGeneralInfo userGeneralInfo = new UserGeneralInfo(fullName,email);
+                                        UserGeneralInfo userGeneralInfo = new UserGeneralInfo(
+                                                FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                fullName,
+                                                email);
 
                                         dbRefrence.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .setValue(userGeneralInfo).addOnSuccessListener(new OnSuccessListener<Void>() {

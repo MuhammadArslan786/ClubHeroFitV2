@@ -8,7 +8,6 @@
     tools:context=".ui.profile.ProfileFragment">
 
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,7 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
+                    android:id="@+id/profile_image_con"
                     android:layout_width="@dimen/_130sdp"
                     android:layout_height="@dimen/_130sdp"
                     android:layout_marginTop="44dp"
@@ -42,9 +41,9 @@
                     android:layout_height="@dimen/_45sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_baseline_add_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/profile_image"
-                    app:layout_constraintEnd_toEndOf="@+id/profile_image"
-                    app:layout_constraintTop_toTopOf="@+id/profile_image"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_image_con"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_image_con"
+                    app:layout_constraintTop_toTopOf="@+id/profile_image_con"
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,7 +57,7 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         fullNameProfile = root.findViewById(R.id.fullNameProfile);
         emailProfile = root.findViewById(R.id.emailProfile);
-        profile_image = root.findViewById(R.id.profile_image);
+        profile_image = root.findViewById(R.id.profile_image_con);
         profile_add = root.findViewById(R.id.profile_add);
 
         mAuth = FirebaseAuth.getInstance();

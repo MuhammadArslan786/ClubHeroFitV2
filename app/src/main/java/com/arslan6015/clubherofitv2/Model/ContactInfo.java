@@ -1,18 +1,18 @@
 package com.arslan6015.clubherofitv2.Model;
 
-public class UserGeneralInfo {
-    private String id,FullName,email;
+public class ContactInfo {
 
-    public UserGeneralInfo() {
+    private String id,fullName,email,image;
+
+    public ContactInfo() {
     }
 
-    public UserGeneralInfo(String id, String fullName, String email) {
+    public ContactInfo(String id, String fullName, String email, String image) {
         this.id = id;
-        FullName = fullName;
+        this.fullName = fullName;
         this.email = email;
+        this.image = image;
     }
-
-
 
     public String getId() {
         return id;
@@ -23,11 +23,11 @@ public class UserGeneralInfo {
     }
 
     public String getFullName() {
-        return FullName;
+        return fullName;
     }
 
     public void setFullName(String fullName) {
-        FullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -36,5 +36,13 @@ public class UserGeneralInfo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
