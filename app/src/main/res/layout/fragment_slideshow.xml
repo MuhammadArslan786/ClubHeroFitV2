@@ -6,17 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".ui.slideshow.SlideshowFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--        <androidx.appcompat.widget.Toolbar-->
+        <!--            android:id="@+id/tool_bar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:background="?attr/colorPrimary"-->
+        <!--            android:elevation="6dp"-->
+        <!--            android:minHeight="?attr/actionBarSize"-->
+        <!--            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+        <!--            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_classes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/TextViewColor"
+            android:background="?attr/colorPrimary"
+            android:elevation="6dp"
+            app:tabTextColor="@color/EditTextHint"
+            app:tabSelectedTextColor="@color/TextViewColor"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager_classes"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/tab_layout_classes" />
+
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
