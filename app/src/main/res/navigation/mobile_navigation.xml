@@ -35,4 +35,11 @@
         android:name="com.arslan6015.clubherofitv2.ui.contacts.ContactsFragment"
         android:label="@string/menu_contacts"
         tools:layout="@layout/fragment_contacts" />
+
+
+    <fragment
+        android:id="@+id/nav_chats"
+        android:name="com.arslan6015.clubherofitv2.ui.chats.ChatsListFragment"
+        android:label="@string/menu_chats"
+        tools:layout="@layout/fragment_chats_list" />
 </navigation>

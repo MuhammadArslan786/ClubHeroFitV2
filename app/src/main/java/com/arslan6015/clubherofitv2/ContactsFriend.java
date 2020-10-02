@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arslan6015.clubherofitv2.Adapters.ContactsAdapter;
 import com.arslan6015.clubherofitv2.Model.ContactInfo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -38,6 +43,8 @@ public class ContactsFriend extends AppCompatActivity {
     RecyclerView recycler_contacts_info;
     RecyclerView.LayoutManager layoutManager;
     private List<ContactInfo> contactsLists;
+    FirebaseAuth mAuth;
+    String currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +53,8 @@ public class ContactsFriend extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Contact Info");
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser().getUid();
 
         Intent intent = getIntent();
         nameIntent = intent.getStringExtra("txtName");
@@ -53,6 +62,7 @@ public class ContactsFriend extends AppCompatActivity {
         idIntent = intent.getStringExtra("txtId");
         profileImageIntent = intent.getStringExtra("txtProfileImage");
 
+        Log.e("TAGID",idIntent);
 
         db = FirebaseDatabase.getInstance();
         itemListContacts = db.getReference().child("UserInfo");
@@ -103,6 +113,31 @@ public class ContactsFriend extends AppCompatActivity {
             }
         });
 
+        Log.e("TAGC",currentUser);
+        Log.e("TAGID",idIntent);
+
+        if (idIntent.equals(currentUser)) {
+            addBtn.setAlpha(0.5f);
+            addBtn.setClickable(false);
+        }
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (idIntent.equals(currentUser)){
+                    Toast.makeText(ContactsFriend.this,"You can not send message to yourself",Toast.LENGTH_LONG).show();
+                }else {
+                    Intent intent1 = new Intent(ContactsFriend.this,ChatsActivity.class);
+                    intent1.putExtra("ChatPersonId",idIntent);
+                    intent1.putExtra("ChatPersonName",nameIntent);
+                    intent1.putExtra("ChatPersonEmail",emailIntent);
+                    intent1.putExtra("ChatPersonImage",profileImageIntent);
+                    startActivity(intent1);
+                }
+
+            }
+        });
 
     }
 

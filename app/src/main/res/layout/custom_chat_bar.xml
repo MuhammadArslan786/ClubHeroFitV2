@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_40sdp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <!--    app:layout_constraintEnd_toStartOf="@id/custom_profile_image"-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/custom_profile_image"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_13sdp"
+        android:src="@drawable/maleicon"
+        app:civ_border_color="@color/EditTextColor"
+        app:civ_border_width="@dimen/_1sdp"
+        />
+
+    <TextView
+        android:id="@+id/custom_profile_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/_13sdp"
+        android:layout_marginBottom="@dimen/_7sdp"
+        android:text="Display UserName"
+        android:textColor="@color/EditTextColor"
+        android:textSize="@dimen/_14sdp" />
+
+    <TextView
+        android:id="@+id/custom_profile_lastseen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="@color/EditTextColor"
+        android:text="Last Seen"
+        android:textSize="@dimen/_14sdp" />
+
+</RelativeLayout>
