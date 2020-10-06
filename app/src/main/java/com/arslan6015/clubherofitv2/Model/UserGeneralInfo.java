@@ -1,7 +1,7 @@
 package com.arslan6015.clubherofitv2.Model;
 
 public class UserGeneralInfo {
-    private String id,FullName,email;
+    private String id,FullName,email,image;
 
     public UserGeneralInfo() {
     }
@@ -36,5 +36,13 @@ public class UserGeneralInfo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

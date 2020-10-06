@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arslan6015.clubherofitv2.Adapters.MessageAdapter;
-import com.arslan6015.clubherofitv2.Model.ContactInfo;
 import com.arslan6015.clubherofitv2.Model.MessageModel;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -142,6 +141,7 @@ public class ChatsActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+
     }
 
     @Override
@@ -341,7 +341,6 @@ public class ChatsActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
         saveCurrentDate = currentDate.format(calendar.getTime());
-
 
         SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
         saveCurrentTime = currentTime.format(calendar.getTime());
@@ -566,4 +565,5 @@ public class ChatsActivity extends AppCompatActivity {
         return super.onNavigateUp();
 //        return onBackPressed();
     }
+
 }

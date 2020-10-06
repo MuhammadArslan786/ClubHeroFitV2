@@ -1,32 +1,25 @@
-package com.arslan6015.clubherofitv2.ui.gallery;
+package com.arslan6015.clubherofitv2.ui.Performance;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arslan6015.clubherofitv2.R;
 import com.arslan6015.clubherofitv2.TabsAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-public class GalleryFragment extends Fragment {
+public class PerformanceFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View root = inflater.inflate(R.layout.fragment_performance, container, false);
 
 //        Toolbar toolbar = (Toolbar)root.findViewById(R.id.tool_bar);
 //        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);

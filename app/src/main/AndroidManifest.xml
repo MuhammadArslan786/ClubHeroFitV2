@@ -10,10 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ImageViewerActivity"></activity>
-        <activity android:name=".ChatsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+        <activity android:name=".ArticleActivity"></activity>
+        <activity android:name=".ImageViewerActivity" />
+        <activity
+            android:name=".ChatsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ContactsFriend" />
         <activity
             android:name=".HomeActivity"

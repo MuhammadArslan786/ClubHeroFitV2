@@ -5,12 +5,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.arslan6015.clubherofitv2.ui.ClassesFragment;
-import com.arslan6015.clubherofitv2.ui.HitFragment;
-import com.arslan6015.clubherofitv2.ui.HpFragment;
-import com.arslan6015.clubherofitv2.ui.MovFragment;
-import com.arslan6015.clubherofitv2.ui.StrFragment;
-import com.arslan6015.clubherofitv2.ui.SuggestionFragment;
-import com.arslan6015.clubherofitv2.ui.UpcomingWorkoutFragment;
+import com.arslan6015.clubherofitv2.ui.SuggestiveArticleFragment;
+import com.arslan6015.clubherofitv2.ui.NewsEventsFragment;
 
 public class TabsAdapterClasses extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -29,10 +25,10 @@ public class TabsAdapterClasses extends FragmentStatePagerAdapter {
                 ClassesFragment classesFragment = new ClassesFragment();
                 return classesFragment;
             case 1:
-                SuggestionFragment suggestionFragment = new SuggestionFragment();
+                SuggestiveArticleFragment suggestionFragment = new SuggestiveArticleFragment();
                 return suggestionFragment;
             case 2:
-                UpcomingWorkoutFragment upcomingWorkoutFragment = new UpcomingWorkoutFragment();
+                NewsEventsFragment upcomingWorkoutFragment = new NewsEventsFragment();
                 return upcomingWorkoutFragment;
 
             default:

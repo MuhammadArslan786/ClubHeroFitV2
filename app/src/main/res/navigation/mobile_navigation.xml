@@ -20,15 +20,15 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.arslan6015.clubherofitv2.ui.gallery.GalleryFragment"
+        android:name="com.arslan6015.clubherofitv2.ui.Performance.PerformanceFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_performance" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.arslan6015.clubherofitv2.ui.slideshow.SlideshowFragment"
+        android:name="com.arslan6015.clubherofitv2.ui.classes.ClassesFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_class" />
 
     <fragment
         android:id="@+id/nav_contacts"
