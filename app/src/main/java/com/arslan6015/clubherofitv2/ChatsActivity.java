@@ -24,7 +24,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.arslan6015.clubherofitv2.Adapters.MessageAdapter;
+import com.arslan6015.clubherofitv2.Common.common;
 import com.arslan6015.clubherofitv2.Model.MessageModel;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +49,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,12 +81,17 @@ public class ChatsActivity extends AppCompatActivity {
     StorageTask uploadTask, uploadTaskFiles;
     Uri fileUri;
     ProgressDialog loadingBar;
-
+    private RequestQueue mRequestQue;
+    private String URL = "https://fcm.googleapis.com/fcm/send";
+    String receiverToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+
+        mRequestQue = Volley.newRequestQueue(this);
+//        FirebaseMessaging.getInstance().subscribeToTopic("chat"+messageSenderId);
 
         Intent intent = getIntent();
         messageReceiverId = intent.getStringExtra("ChatPersonId");
@@ -85,7 +101,12 @@ public class ChatsActivity extends AppCompatActivity {
 
         inialization();
 
-        Picasso.get().load(messageReceiverImage).placeholder(R.drawable.maleicon).into(custom_profile_image);
+//        if (!messageReceiverImage.isEmpty()){
+            Picasso.get().load(messageReceiverImage).placeholder(R.drawable.maleicon).into(custom_profile_image);
+//        }else {
+//            String imagleLinkDummy = "https://firebasestorage.googleapis.com/v0/b/clubherofitv2.appspot.com/o/Profile%20Images%2Fmaleicon.png?alt=media&token=8f821d90-e511-40ea-a6fa-64c876a95e01";
+//            Picasso.get().load(imagleLinkDummy).placeholder(R.drawable.maleicon).into(custom_profile_image);
+//        }
         custom_profile_username.setText(messageReceiverName);
         custom_profile_lastseen.setText("offline");
 
@@ -364,6 +385,11 @@ public class ChatsActivity extends AppCompatActivity {
                         messageAdapter.notifyDataSetChanged();
                         //for scrolling
                         userMessagesListRecycler.smoothScrollToPosition(userMessagesListRecycler.getAdapter().getItemCount());
+
+                        //use for clear unseen status.
+                        DatabaseReference db = FirebaseDatabase.getInstance().getReference("ChatsList")
+                                .child(messageSenderId).child(messageReceiverId).child("unseen_msg_count");
+                        db.setValue(0);
                     }
 
                     @Override
@@ -389,7 +415,7 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void sendMessage() {
-        String messageText = input_chat_message.getText().toString();
+        final String messageText = input_chat_message.getText().toString();
         if (TextUtils.isEmpty(messageText)) {
             displayToast("please enter something");
         } else {
@@ -418,6 +444,7 @@ public class ChatsActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
                         displayToast("Message Sent");
+                        sendNotification(messageText,messageSenderId);
                         //here we are creating chat list for chatFragment
                         chatsList();
                     } else {
@@ -442,7 +469,7 @@ public class ChatsActivity extends AppCompatActivity {
         chatsListBody.put("fullName", messageReceiverName);
         chatsListBody.put("id", messageReceiverId);
         chatsListBody.put("image", messageReceiverImage);
-
+        chatsListBody.put("unseen_msg_count",0);
 
         Map chatslistBodyDetailes = new HashMap();
         chatslistBodyDetailes.put(messageSenderRef, chatsListBody);
@@ -479,19 +506,27 @@ public class ChatsActivity extends AppCompatActivity {
                     String email = snapshot.child("email").getValue().toString();
                     String fullName = snapshot.child("fullName").getValue().toString();
                     String id = snapshot.child("id").getValue().toString();
-                    String imagelink = snapshot.child("image").getValue().toString();
+                    String imagelink = null;
+                    if (snapshot.hasChild("image")){
+                        imagelink = snapshot.child("image").getValue().toString();
+                        Log.e("TAGImage", imagelink);
+                    }
                     Log.e("TAGEmail", email);
                     Log.e("TAGFullName", fullName);
                     Log.e("TAGId", id);
-                    Log.e("TAGImage", imagelink);
 
                     Map chatsListBodyReceiver = new HashMap();
 
                     chatsListBodyReceiver.put("email", email);
                     chatsListBodyReceiver.put("fullName", fullName);
                     chatsListBodyReceiver.put("id", messageSenderId);
-                    chatsListBodyReceiver.put("image", imagelink);
-
+                    chatsListBodyReceiver.put("unseen_msg_count",(common.getUnseenMessages(messageReceiverId,messageSenderId))+1);
+                    if (imagelink != null) {
+                        chatsListBodyReceiver.put("image", imagelink);
+                    } else {
+                        String imagleLinkDummy = "https://firebasestorage.googleapis.com/v0/b/clubherofitv2.appspot.com/o/Profile%20Images%2Fmaleicon.png?alt=media&token=8f821d90-e511-40ea-a6fa-64c876a95e01";
+                        chatsListBodyReceiver.put("image", imagleLinkDummy);
+                    }
 
                     Map chatslistBodyReceiverDetailes = new HashMap();
                     chatslistBodyReceiverDetailes.put(messageReceiverRef, chatsListBodyReceiver);
@@ -556,7 +591,7 @@ public class ChatsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Intent intent = new Intent(ChatsActivity.this, HomeActivity.class);
+//         Intent intent = new Intent(ChatsActivity.this, HomeActivity.class);
 //        startActivity(intent);
     }
 
@@ -566,4 +601,78 @@ public class ChatsActivity extends AppCompatActivity {
 //        return onBackPressed();
     }
 
+
+    private void sendNotification(String messageText, String messageSenderId) {
+        // our json object will look like this
+//        {
+//            "to" : "topics/topic name",
+//                notification: {
+//                    title: "some title",
+//                    body: "some body"
+//                }
+//        }
+
+
+//        DatabaseReference recevierToken = FirebaseDatabase.getInstance().getReference("Tokens")
+//                .child(messageReceiverId);
+//        recevierToken.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()){
+//                    String token = snapshot.child("token").getValue().toString();
+//                    receiverToken = token;
+//                    Log.e("TAG","CurrentToken: "+ receiverToken);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.e("TAG","CurrentToken: "+error);
+//            }
+//        });
+
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to", common.getSenderToken(messageReceiverId));
+                JSONObject notificationObject = new JSONObject();
+                notificationObject.put("title", common.getCurrentName());
+                notificationObject.put("body", messageText);
+
+                JSONObject extraData = new JSONObject();
+                extraData.put("messageSenderId",messageSenderId);
+//                extraData.put("messageReceiverName",);
+//                extraData.put("messageReceiverEmail",messagerReceiverEmail);
+//                extraData.put("messageReceiverImage",messageReceiverImage);
+
+//                extraData.put()
+
+            mainObj.put("notification", notificationObject);
+            mainObj.put("data",extraData);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.e("TAG","Notification"+response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("TAG","Error: "+error);
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=AAAA6i53Pbc:APA91bFk_lotMJFRuxUk1TOFARGlAhs4l8utaqHalTGCBqWacvcD9tE42kcW9XpU50kKfOmFt7dTaUpi8WqGKhGsnCUkPcK7Ffl4avy1n6tbGFP-tfP_LTaWSpRfIav-8aIXqI6u2LEM");
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_linear_layout_contacts"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    >
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:id="@+id/firstLayout"
@@ -12,11 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_7sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        >
+        android:layout_marginEnd="@dimen/_15sdp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image_con"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
@@ -32,23 +29,49 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/nameContacts"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Demo name"
-                android:textColor="@color/TextViewColor"
-                android:textSize="@dimen/_15sdp"
-                android:textStyle="bold" />
+                android:weightSum="10"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/nameContacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Demo name"
+                    android:layout_weight="9"
+                    android:textColor="@color/TextViewColor"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/emailContacts"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/unseen_msg_counter_tv"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_weight="1"
+                    android:text="11"
+                    android:visibility="visible"
+                    android:gravity="left"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/EditTextColor"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="demo@email.com"
-                android:textColor="@color/EditTextHint"
-                android:textSize="@dimen/_15sdp" />
+                android:layout_marginEnd="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/emailContacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="demo@email.com"
+                    android:textColor="@color/EditTextHint"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

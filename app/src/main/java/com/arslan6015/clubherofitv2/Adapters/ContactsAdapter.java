@@ -47,12 +47,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.nameContacts.setText(contactsLists.get(position).getFullName());
         holder.emailContacts.setText(contactsLists.get(position).getEmail());
-//        holder.txtAddressBene.setText(beneficiaryLists.get(position).getAddress());
         Picasso.get().load(contactsLists.get(position).getImage()).placeholder(R.drawable.maleicon).into(holder.profile_image);
 
-        Log.e("TAG",String.valueOf(contactsLists.size()));
-        Log.e("TAG",contactsLists.get(position).getFullName());
-        Log.e("TAG",contactsLists.get(position).getEmail());
+        if ((contactsLists.get(position).getUnseen_msg_count())>0){
+            holder.unseen_msg_counter_tv.setText(String.valueOf(contactsLists.get(position).getUnseen_msg_count()));
+            holder.unseen_msg_counter_tv.setVisibility(View.VISIBLE);
+        }else {
+            holder.unseen_msg_counter_tv.setVisibility(View.INVISIBLE);
+        }
+
+        Log.e("TAG", String.valueOf(contactsLists.size()));
+        Log.e("TAG", contactsLists.get(position).getFullName());
+        Log.e("TAG", contactsLists.get(position).getEmail());
 
         //In onBindViewHolder whenever
         holder.setItemClickListener(new ItemClickListener() {
@@ -62,10 +68,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 //                String key = beneficiaryDataLists.get(position)
 //                UpdateDialogBox(position);
                 Intent intent = new Intent(context, ContactsFriend.class);
-                intent.putExtra("txtName",contactsLists.get(position).getFullName());
-                intent.putExtra("txtEmail",contactsLists.get(position).getEmail());
-                intent.putExtra("txtId",contactsLists.get(position).getId());
-                intent.putExtra("txtProfileImage",contactsLists.get(position).getImage());
+                intent.putExtra("txtName", contactsLists.get(position).getFullName());
+                intent.putExtra("txtEmail", contactsLists.get(position).getEmail());
+                intent.putExtra("txtId", contactsLists.get(position).getId());
+                intent.putExtra("txtProfileImage", contactsLists.get(position).getImage());
                 context.startActivity(intent);
             }
         });
@@ -83,11 +89,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             //In order to get click events just implements the View.OnClickListener
             implements View.OnClickListener {
         // declare list_data.xml Textview
-        public TextView nameContacts, emailContacts, isOnline;
-        public CircleImageView profile_image,profile_online;
+        public TextView nameContacts, emailContacts, isOnline,unseen_msg_counter_tv;
+        public CircleImageView profile_image, profile_online;
         // create object of interface
         private ItemClickListener itemClickListener;
-        private LinearLayout firstLayout;
+        private LinearLayout firstLayout, main_linear_layout_contacts;
 
         //ViewHolder constructor
         public ViewHolder(View itemView) {
@@ -99,6 +105,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             emailContacts = itemView.findViewById(R.id.emailContacts);
             isOnline = itemView.findViewById(R.id.isOnline);
             profile_online = itemView.findViewById(R.id.profile_online_con);
+            main_linear_layout_contacts = itemView.findViewById(R.id.main_linear_layout_contacts);
+            unseen_msg_counter_tv = itemView.findViewById(R.id.unseen_msg_counter_tv);
             //whenever any of the item in the recyclerview is clicked
             itemView.setOnClickListener(this);
         }

@@ -3,6 +3,7 @@ package com.arslan6015.clubherofitv2.Model;
 public class ContactInfo {
 
     private String id,fullName,email,image;
+            private int unseen_msg_count;
 
     public ContactInfo() {
     }
@@ -44,5 +45,13 @@ public class ContactInfo {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getUnseen_msg_count() {
+        return unseen_msg_count;
+    }
+
+    public void setUnseen_msg_count(int unseen_msg_count) {
+        this.unseen_msg_count = unseen_msg_count;
     }
 }

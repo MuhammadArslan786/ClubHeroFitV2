@@ -73,7 +73,12 @@ public class ContactsFriend extends AppCompatActivity {
         email_con = findViewById(R.id.email_con);
         addBtn = findViewById(R.id.addBtn);
 
-        Picasso.get().load(profileImageIntent).placeholder(R.drawable.maleicon).into(profile_image_con);
+//        if (!profileImageIntent.isEmpty() ){
+            Picasso.get().load(profileImageIntent).placeholder(R.drawable.maleicon).into(profile_image_con);
+//        }else {
+//            String imagleLinkDummy = "https://firebasestorage.googleapis.com/v0/b/clubherofitv2.appspot.com/o/Profile%20Images%2Fmaleicon.png?alt=media&token=8f821d90-e511-40ea-a6fa-64c876a95e01";
+//            Picasso.get().load(imagleLinkDummy).placeholder(R.drawable.maleicon).into(profile_image_con);
+//        }
         name_con.setText(nameIntent);
         email_con.setText(emailIntent);
 
